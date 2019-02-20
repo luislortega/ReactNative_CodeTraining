@@ -1,2 +1,2 @@
 # React_CodeTraining
-Hub of my progress with React
+Hub of my progress with React native
