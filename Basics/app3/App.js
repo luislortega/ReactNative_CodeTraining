@@ -44,14 +44,17 @@ export default class App extends Component<Props> {
         })
       }
     }, 1000);
-  }
+  } 
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={[styles.welcome, this.state.customStyle]}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <View style={styles.half}>
+        
+        </View>
+        <View style={styles.half2}>
+        
+        </View>
       </View>
     );
   }
@@ -60,18 +63,14 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'row'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  half:{
+    flex: 1,
+    backgroundColor: 'red'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  half2:{
+    flex: 1,
+    backgroundColor: 'blue'
+  }
 });
