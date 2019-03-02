@@ -50,10 +50,8 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.half}>
-        
         </View>
         <View style={styles.half2}>
-        
         </View>
       </View>
     );
