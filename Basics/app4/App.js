@@ -20,9 +20,18 @@ const instructions = Platform.select({
 type Props = {};
 export class ChildComponent extends Component{
   render () {
+    //Show data
+    if(this.props.result){
+      var res = this.props.result.map((item, i) => {
+        return (
+          <Text key={i}>{item.title}</Text>
+        )
+      })
+    }
     return (
       //code here 
       <View>
+        {res}
         <View style={this.props.status ? styles.on : styles.off}/>
       </View>
     )
@@ -34,8 +43,19 @@ export default class App extends Component<Props> {
   constructor(){
     super() //Super constructor
     this.state = {
-      status: false
+      status: false,
+      data: null 
     }
+  }
+  //Function to fetch data when the application is mounted
+  componentDidMount(){
+    fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          data: responseJson.movies
+        })
+      })
   }
 
   //Function to get the click confirmation
@@ -49,7 +69,7 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native! TEST</Text>
-        <ChildComponent status={this.state.status}/>        
+        <ChildComponent status={this.state.status} result={this.state.data}/>        
         <Button 
           onPress={this.clicked.bind(this)}
           title="Click here"
