@@ -18,6 +18,15 @@ const instructions = Platform.select({
 });
 
 type Props = {};
+
+export class Loading extends Component{
+  render(){
+    return (
+      <Text>Loading...</Text>
+    )
+  }
+}
+
 export class ChildComponent extends Component{
   render () {
     //Show data
@@ -31,7 +40,7 @@ export class ChildComponent extends Component{
     return (
       //code here 
       <View>
-        {res}
+        {this.props.result ? res : <Loading/> }
         <View style={this.props.status ? styles.on : styles.off}/>
       </View>
     )
@@ -68,13 +77,13 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native! TEST</Text>
         <ChildComponent status={this.state.status} result={this.state.data}/>        
         <Button 
           onPress={this.clicked.bind(this)}
           title="Click here"
           color = 'red'
         />
+        <Text style={styles.welcome}>Welcome to React Native! TEST</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
       </View>

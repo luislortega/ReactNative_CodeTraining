@@ -22,4 +22,7 @@ information than can be saved at a Variable and used by elements of the view
 - States:
 mutations of components than can be programmed
 
+- function: componentDidMount()
+make an action when the app is mounted 
+
 
