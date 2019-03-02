@@ -8,54 +8,31 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, ListView, TouchableHighlight} from 'react-native';
 
 type Props = {};
 
-export class Loading extends Component{
-  render () {
-    return ( 
-      <Text>Loading...</Text>
-    )
-  }
-}
+export default class App extends Component<Props> { 
 
-export class ChildComponent extends Component{
-  render(){
-
-    if(this.props.result){
-      var res = this.props.result.map((item, i) => {
-        return (
-          <Text key={i}>{item.title}</Text>
-        )
-      })
-    }
-
-    return(
-      //We return the view 
-      <View>
-        {this.props.result ? res : <Loading/> }
-      </View>
-    )
-  }
-}
-
-
-export default class App extends Component<Props> {
-  
   constructor(){
     super()
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2 })
     this.state = {
-      data: null
+      dataSource: ds.cloneWithRows([])
     }
   }
 
   componentDidMount(){
+    let titles = []
     fetch('https://facebook.github.io/react-native/movies.json')
       .then((response) => response.json())
       .then((responseJson) => {
+        let movies = responseJson.movies
+        for (let i = 0; i < movies.length; i++) {
+          titles.push(movies[i].title)
+        }
         this.setState({
-          data: responseJson.movies
+          dataSource: this.state.dataSource.cloneWithRows(titles)
         })
       })
   }
@@ -63,27 +40,36 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-          <ChildComponent result={this.state.data}/>
+        <ListView
+          enableEmptySections={true}
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+        />
       </View>
     );
+  }
+
+  renderRow(dataRow){
+    return(
+      <TouchableHighlight>
+        <View style={styles.cell}>
+          <Text>{dataRow}</Text>
+        </View>
+      </TouchableHighlight>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  cell:{
+    borderBottomWidth: 1,
+    borderBottomColor: 'grey',
+    paddingTop: 20,
+    paddingBottom: 20, 
+    alignItems: 'center'
+  }
 });
