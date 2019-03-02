@@ -25,4 +25,6 @@ mutations of components than can be programmed
 - function: componentDidMount()
 make an action when the app is mounted 
 
+**deprecated**
+- ListView
 

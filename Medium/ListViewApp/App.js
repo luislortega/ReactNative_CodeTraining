@@ -8,7 +8,13 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ListView, TouchableHighlight} from 'react-native';
+import {Platform, 
+        StyleSheet, 
+        Text, 
+        View, 
+        ListView, 
+        TouchableHighlight, 
+        Alert} from 'react-native';
 
 type Props = {};
 
@@ -43,15 +49,27 @@ export default class App extends Component<Props> {
         <ListView
           enableEmptySections={true}
           dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
+          renderRow={this.renderRow.bind(this)}
         />
       </View>
     );
   }
 
+
+  pressCell(dataRow){
+    Alert.alert(
+      'Pelicula',
+      `Titulo ${dataRow}`,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      {cancelable: false},
+    )
+  } 
+
   renderRow(dataRow){
     return(
-      <TouchableHighlight>
+      <TouchableHighlight onPress={() => this.pressCell(dataRow)}> 
         <View style={styles.cell}>
           <Text>{dataRow}</Text>
         </View>
