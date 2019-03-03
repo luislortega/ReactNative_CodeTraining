@@ -14,7 +14,7 @@ import InputNumberButton from './InputNumberButton';
 
 const buttons = [
   ['CLEAR', 'DEL'],
-  ['7', '8', '9', '/'],
+  ['7', '8', '9', '÷'],
   ['4', '5', '6', 'x'],
   ['1', '2', '3', '.'],
   ['0', '.', '=', '+']
@@ -90,7 +90,7 @@ export default class App extends Component {
       case '+':
       case '-':
       case 'x':
-      case '/':
+      case '÷':
         this.setState({
           nextValue: true, //Exist the next value
           operator: input, 
@@ -103,7 +103,7 @@ export default class App extends Component {
         });
         break;
       case '.':
-        let dot = displayValue.slice(-1); //Get the last character
+        let dot = displayValue.toString().slice(-1); //Get the last character
         this.setState({
           displayValue: (dot !== '.') ? displayValue + input : displayValue 
         });
@@ -121,21 +121,25 @@ export default class App extends Component {
       case 'DEL':
         let string = displayValue.toString(); 
         let deleteString = string.substr(0, string.length-1);
+        //Deleting the last number insterted  
         this.setState({
-          displayValue: string.length == 1 ? '0' : deleteString
+          displayValue: string.length == 1 ? '0' : deleteString,
+          firstValue: string.length == 1 ? '' : deleteString
         });
         break;
       case 'CLEAR':
+        //Back to initialState using the default array in the constructor
         this.setState(this.initialState);
         break;
       case '=':
         //Result
-        let result = eval(firstValue + operator + secondValue);
+        let formatOperator = (operator == 'x') ? '*' : (operator == '÷') ? '/' : operator 
+        let result = eval(firstValue + formatOperator + secondValue);
         //We need reset all default data 
         this.setState({
-          displayValue: result,
+          displayValue: result % 1 === 0 ? result : result.toFixed(2), //We need format numbers to decimal to avoid errors 
           operator: null,
-          firstValue: '',
+          firstValue: result % 1 === 0 ? result : result.toFixed(2),
           secondValue: '',
           nextValue: false
         });
