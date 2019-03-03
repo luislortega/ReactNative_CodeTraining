@@ -14,7 +14,7 @@ import InputNumberButton from './InputNumberButton';
 
 const buttons = [
   ['CLEAR', 'DEL'],
-  ['7', '8', '9', '%'],
+  ['7', '8', '9', '/'],
   ['4', '5', '6', 'x'],
   ['1', '2', '3', '.'],
   ['0', '.', '=', '+']
@@ -80,17 +80,17 @@ export default class App extends Component {
         if(!nextValue){
           this.setState({
             firstValue: firstValue + input
-          })
+          });
         }else{
           this.setState({
             secondValue: secondValue + input
-          })
+          });
         }
         break;
       case '+':
       case '-':
       case 'x':
-      case '%':
+      case '/':
         this.setState({
           nextValue: true, //Exist the next value
           operator: input, 
@@ -123,18 +123,24 @@ export default class App extends Component {
         let deleteString = string.substr(0, string.length-1);
         this.setState({
           displayValue: string.length == 1 ? '0' : deleteString
-        })
+        });
         break;
       case 'CLEAR':
         this.setState(this.initialState);
         break;
       case '=':
         //Result
-        
+        let result = eval(firstValue + operator + secondValue);
+        //We need reset all default data 
+        this.setState({
+          displayValue: result,
+          operator: null,
+          firstValue: '',
+          secondValue: '',
+          nextValue: false
+        });
         break;
     }
-    
-    
   }
   
   render() {
