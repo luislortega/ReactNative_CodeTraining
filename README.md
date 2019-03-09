@@ -28,3 +28,12 @@ make an action when the app is mounted
 **deprecated**
 - ListView
 
+## How to build a basic navigatior
+
+Basic steps: 
+
+https://reactnavigation.org/docs/en/getting-started.html
+
+Configure genymotion with expo:
+
+https://medium.com/@psyanite/how-to-use-genymotion-with-expo-cc52815928cf
